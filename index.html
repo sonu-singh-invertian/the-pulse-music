@@ -33,7 +33,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-darkBg text-white dark:bg-darkBg dark:text-white transition-colors duration-300 font-sans antialiased" id="bodyTag">
+<body class="bg-darkBg text-white transition-colors duration-300 font-sans antialiased" id="bodyTag">
 
     <!-- SIGN UP / LOGIN OVERLAY MODAL -->
     <div id="authModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-lg px-4">
@@ -47,13 +47,6 @@
 
             <!-- Auth Form -->
             <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
-                <div id="profileGroup" class="text-center">
-                    <label class="text-xs uppercase font-bold text-gray-400 mb-2 block">Profile Picture (Optional)</label>
-                    <div class="flex justify-center items-center gap-4">
-                        <img id="avatarPreview" src="https://via.placeholder.com/80" class="w-16 h-16 rounded-full object-cover border-2 border-neonCyan">
-                        <input type="file" id="profilePicInput" accept="image/*" onchange="previewProfilePic(event)" class="text-xs text-gray-400">
-                    </div>
-                </div>
                 <div id="nameGroup">
                     <label class="text-xs uppercase font-bold text-gray-400 mb-1 block">Full Name</label>
                     <input type="text" id="userName" placeholder="Sonu Singh" class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-neonCyan transition">
@@ -81,54 +74,88 @@
         </div>
     </div>
 
+    <!-- EDIT PROFILE MODAL -->
+    <div id="editProfileModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/90 backdrop-blur-lg px-4">
+        <div class="bg-cardBgDark border border-gray-800 p-8 rounded-3xl w-full max-w-md shadow-neon-cyan relative text-white">
+            <button onclick="closeEditProfileModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl font-bold">✕</button>
+            
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">
+                    Edit Profile
+                </h2>
+                <p class="text-gray-400 text-xs mt-1">Update your profile picture and details</p>
+            </div>
+
+            <div class="space-y-5">
+                <div class="flex flex-col items-center gap-3">
+                    <img id="editAvatarPreview" src="https://via.placeholder.com/100" class="w-24 h-24 rounded-full object-cover border-2 border-neonCyan shadow-neon-cyan">
+                    <label class="cursor-pointer bg-neonCyan/10 border border-neonCyan text-neonCyan hover:bg-neonCyan hover:text-black font-bold px-4 py-1.5 rounded-full text-xs transition">
+                        Choose New Picture
+                        <input type="file" id="editProfilePicInput" accept="image/*" onchange="previewEditPic(event)" class="hidden">
+                    </label>
+                </div>
+
+                <div>
+                    <label class="text-xs uppercase font-bold text-gray-400 mb-1 block">Full Name</label>
+                    <input type="text" id="editUserName" class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-neonCyan transition">
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button onclick="saveProfileChanges()" class="w-full bg-gradient-to-r from-neonCyan to-neonLime text-black font-extrabold py-2.5 rounded-xl hover:shadow-neon-cyan transition">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MAIN WEBSITE CONTENT -->
     <div id="mainContent" class="hidden">
         
         <!-- 1. NAVIGATION BAR -->
-        <nav class="sticky top-0 z-50 bg-darkBg/90 dark:bg-darkBg/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex justify-between items-center gap-4">
+        <nav class="sticky top-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex justify-between items-center gap-4">
             <div class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">
                 THE PULSE.
             </div>
             
             <!-- Direct Search Form -->
             <form onsubmit="handleEnterSearch(event)" class="relative">
-                <input type="text" id="searchInput" onkeyup="filterLocalTracks()" placeholder="Search site or press Enter..." class="bg-cardBgDark border border-gray-700 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-neonCyan transition w-40 md:w-72 text-white">
+                <input type="text" id="searchInput" onkeyup="filterLocalTracks()" placeholder="Search site or press Enter..." class="bg-cardBgDark border border-gray-700 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-neonCyan transition w-36 md:w-72 text-white">
                 <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neonCyan hover:text-neonLime font-bold focus:outline-none">🔍</button>
             </form>
 
-            <!-- User Controls (Dark Mode Toggle & Profile) -->
+            <!-- User Controls -->
             <div class="flex items-center gap-3">
                 <!-- Theme Toggle Button -->
                 <button onclick="toggleTheme()" class="p-2 bg-cardBgDark border border-gray-700 rounded-full hover:border-neonCyan transition text-sm">
                     <span id="themeIcon">🌙</span>
                 </button>
 
-                <!-- Profile Pic & Logout -->
-                <div class="flex items-center gap-2">
-                    <label for="profilePicInputNav" class="cursor-pointer">
-                        <img id="navAvatar" src="https://via.placeholder.com/40" class="w-8 h-8 rounded-full object-cover border border-neonLime hover:opacity-80 transition" title="Click to Change Photo">
-                    </label>
-                    <input type="file" id="profilePicInputNav" accept="image/*" onchange="updateProfilePicNav(event)" class="hidden">
-                    <span id="displayUser" class="hidden md:inline text-xs font-bold text-neonLime bg-neonLime/10 border border-neonLime/30 px-3 py-1 rounded-full"></span>
-                    <button onclick="logout()" class="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-full hover:bg-red-500 hover:text-white transition">
-                        Logout
-                    </button>
+                <!-- Profile Click Options -->
+                <div class="flex items-center gap-2 cursor-pointer group" onclick="openEditProfileModal()" title="Click to Edit Profile">
+                    <img id="navAvatar" src="https://via.placeholder.com/40" class="w-8 h-8 rounded-full object-cover border border-neonLime group-hover:scale-105 transition">
+                    <span id="displayUser" class="hidden md:inline text-xs font-bold text-neonLime bg-neonLime/10 border border-neonLime/30 px-3 py-1 rounded-full group-hover:border-neonCyan transition"></span>
                 </div>
+
+                <button onclick="logout()" class="text-xs bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-full hover:bg-red-500 hover:text-white transition">
+                    Logout
+                </button>
             </div>
         </nav>
 
         <!-- 2. HERO SECTION -->
-        <section class="relative min-h-[30vh] flex items-center justify-start px-8 md:px-16 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-neonCyan/10 via-darkBg to-darkBg">
-            <div class="max-w-2xl space-y-4">
+        <section class="relative min-h-[25vh] flex items-center justify-start px-8 md:px-16 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-neonCyan/10 via-darkBg to-darkBg">
+            <div class="max-w-2xl space-y-3">
                 <span class="text-xs uppercase tracking-widest bg-neonCyan/20 text-neonCyan px-3 py-1 rounded-full border border-neonCyan/30">Curated Vault</span>
                 <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-none">
                     Welcome, <span id="welcomeUser" class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">Listener</span>
                 </h1>
+                <p class="text-gray-400 text-xs md:text-sm">Search tracks or click on your profile to edit your details.</p>
             </div>
         </section>
 
         <!-- 3. GENRE & CATEGORY FILTERS -->
-        <section class="px-6 md:px-12 pt-6">
+        <section class="px-6 md:px-12 pt-4">
             <div class="flex items-center gap-3 overflow-x-auto no-scrollbar py-2">
                 <button onclick="filterCategory('all')" class="category-btn bg-neonCyan text-black font-bold px-4 py-1.5 rounded-full text-xs transition">All Tracks</button>
                 <button onclick="filterCategory('punjabi')" class="category-btn bg-cardBgDark border border-gray-700 text-gray-300 font-bold px-4 py-1.5 rounded-full text-xs hover:border-neonCyan transition">Punjabi</button>
@@ -146,7 +173,7 @@
                 <span id="searchResultText" class="text-sm text-neonLime font-semibold">Showing All Tracks</span>
             </div>
             
-            <!-- Search Results Grid -->
+            <!-- Tracks Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="trackGrid">
                 
                 <!-- Track 1: Sidhu Moose Wala -->
@@ -176,7 +203,27 @@
             </div>
         </section>
 
-        <!-- 5. FOOTER -->
+        <!-- 5. WEBSITE EXPERIENCE RATING SECTION -->
+        <section class="py-12 px-6 border-t border-gray-800/80 my-8 text-center bg-cardBgDark/30">
+            <div class="max-w-md mx-auto space-y-4">
+                <h3 class="text-xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">
+                    Rate Your Experience
+                </h3>
+                <p class="text-gray-400 text-xs">How do you like using The Pulse? Tap a star to leave your feedback!</p>
+                
+                <!-- 5-Star Rating Buttons -->
+                <div class="flex justify-center items-center gap-2 text-3xl cursor-pointer" id="starContainer">
+                    <span onclick="rateWebsite(1)" class="star text-gray-600 hover:text-amber-400 transition transform hover:scale-125">★</span>
+                    <span onclick="rateWebsite(2)" class="star text-gray-600 hover:text-amber-400 transition transform hover:scale-125">★</span>
+                    <span onclick="rateWebsite(3)" class="star text-gray-600 hover:text-amber-400 transition transform hover:scale-125">★</span>
+                    <span onclick="rateWebsite(4)" class="star text-gray-600 hover:text-amber-400 transition transform hover:scale-125">★</span>
+                    <span onclick="rateWebsite(5)" class="star text-gray-600 hover:text-amber-400 transition transform hover:scale-125">★</span>
+                </div>
+                <p id="ratingFeedback" class="text-xs font-semibold text-neonLime hidden"></p>
+            </div>
+        </section>
+
+        <!-- 6. FOOTER -->
         <footer class="border-t border-gray-900 py-8 text-center text-sm text-gray-500">
             <p>&copy; 2026 The Pulse Hub. Created with Neon Energy.</p>
         </footer>
@@ -186,8 +233,9 @@
     <!-- LOGIC SCRIPT -->
     <script>
         let isSignUpMode = true;
-        let uploadedPicBase64 = "https://via.placeholder.com/80";
+        let tempEditPicBase64 = null;
         let likedSongs = JSON.parse(localStorage.getItem('pulse_liked')) || [];
+        let userRating = localStorage.getItem('pulse_user_rating') || 0;
         let isDarkMode = true;
 
         window.onload = function() {
@@ -197,9 +245,14 @@
                 unlockSite(user.name, user.pic || "https://via.placeholder.com/80");
             }
             updateLikedUI();
+            if (userRating > 0) {
+                highlightStars(userRating);
+                document.getElementById('ratingFeedback').innerText = `Thank you! You rated us ${userRating}/5 Stars.`;
+                document.getElementById('ratingFeedback').classList.remove('hidden');
+            }
         };
 
-        // Theme Toggle Function
+        // Theme Toggle
         function toggleTheme() {
             isDarkMode = !isDarkMode;
             let body = document.getElementById('bodyTag');
@@ -216,36 +269,55 @@
             }
         }
 
-        // Preview Profile Pic during Signup
-        function previewProfilePic(event) {
+        // Profile Modal Management
+        function openEditProfileModal() {
+            let savedUser = JSON.parse(localStorage.getItem('pulse_user'));
+            if (savedUser) {
+                document.getElementById('editUserName').value = savedUser.name;
+                document.getElementById('editAvatarPreview').src = savedUser.pic || "https://via.placeholder.com/100";
+                tempEditPicBase64 = savedUser.pic || null;
+            }
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        function previewEditPic(event) {
             let reader = new FileReader();
             reader.onload = function() {
-                uploadedPicBase64 = reader.result;
-                document.getElementById('avatarPreview').src = reader.result;
+                tempEditPicBase64 = reader.result;
+                document.getElementById('editAvatarPreview').src = reader.result;
             }
             reader.readAsDataURL(event.target.files[0]);
         }
 
-        // Update Profile Pic directly from Header
-        function updateProfilePicNav(event) {
-            let reader = new FileReader();
-            reader.onload = function() {
-                let newPic = reader.result;
-                document.getElementById('navAvatar').src = newPic;
-                
-                let savedUser = JSON.parse(localStorage.getItem('pulse_user'));
-                if (savedUser) {
-                    savedUser.pic = newPic;
-                    localStorage.setItem('pulse_user', JSON.stringify(savedUser));
-                }
+        function saveProfileChanges() {
+            let savedUser = JSON.parse(localStorage.getItem('pulse_user'));
+            let newName = document.getElementById('editUserName').value.trim();
+
+            if (!savedUser) return;
+
+            if (newName !== "") savedUser.name = newName;
+            if (tempEditPicBase64) savedUser.pic = tempEditPicBase64;
+
+            localStorage.setItem('pulse_user', JSON.stringify(savedUser));
+            
+            // Update UI
+            document.getElementById('displayUser').innerText = savedUser.name;
+            document.getElementById('welcomeUser').innerText = savedUser.name;
+            if (savedUser.pic) {
+                document.getElementById('navAvatar').src = savedUser.pic;
             }
-            reader.readAsDataURL(event.target.files[0]);
+            
+            closeEditProfileModal();
+            alert("Profile updated successfully!");
         }
 
         function toggleAuthMode() {
             isSignUpMode = !isSignUpMode;
             document.getElementById('nameGroup').style.display = isSignUpMode ? 'block' : 'none';
-            document.getElementById('profileGroup').style.display = isSignUpMode ? 'block' : 'none';
             document.getElementById('modalSubtitle').innerText = isSignUpMode ? 'Create an account to access the vault' : 'Welcome back! Login to continue';
             document.getElementById('authBtn').innerText = isSignUpMode ? 'Sign Up' : 'Login';
             document.getElementById('toggleText').innerText = isSignUpMode ? 'Already have an account?' : "Don't have an account?";
@@ -259,10 +331,10 @@
             let name = document.getElementById('userName').value || email.split('@')[0];
 
             if (isSignUpMode) {
-                let userObj = { name: name, email: email, password: password, pic: uploadedPicBase64 };
+                let userObj = { name: name, email: email, password: password, pic: "https://via.placeholder.com/80" };
                 localStorage.setItem('pulse_user', JSON.stringify(userObj));
                 alert("Account Created Successfully!");
-                unlockSite(name, uploadedPicBase64);
+                unlockSite(name, userObj.pic);
             } else {
                 let savedUser = localStorage.getItem('pulse_user');
                 if (savedUser) {
@@ -291,7 +363,7 @@
             location.reload();
         }
 
-        // Live Filter Function
+        // Live Filter
         function filterLocalTracks() {
             let input = document.getElementById('searchInput').value.toLowerCase().trim();
             let cards = document.getElementsByClassName('track-card');
@@ -317,7 +389,7 @@
             }
         }
 
-        // Category Filter Buttons
+        // Category Filter
         function filterCategory(category) {
             let cards = document.getElementsByClassName('track-card');
             for (let i = 0; i < cards.length; i++) {
@@ -333,7 +405,7 @@
             }
         }
 
-        // Like / Favorite Songs System
+        // Like Track System
         function toggleLike(id) {
             let card = document.getElementById(`card-${id}`);
             let btn = card.querySelector('.like-btn');
@@ -354,6 +426,28 @@
                 if (card) {
                     let btn = card.querySelector('.like-btn');
                     if (btn) btn.innerText = "❤️";
+                }
+            });
+        }
+
+        // 5-Star Website Rating Logic
+        function rateWebsite(stars) {
+            localStorage.setItem('pulse_user_rating', stars);
+            highlightStars(stars);
+            let feedback = document.getElementById('ratingFeedback');
+            feedback.innerText = `Thank you! You rated us ${stars}/5 Stars.`;
+            feedback.classList.remove('hidden');
+        }
+
+        function highlightStars(count) {
+            let stars = document.querySelectorAll('#starContainer .star');
+            stars.forEach((star, idx) => {
+                if (idx < count) {
+                    star.classList.remove('text-gray-600');
+                    star.classList.add('text-amber-400');
+                } else {
+                    star.classList.remove('text-amber-400');
+                    star.classList.add('text-gray-600');
                 }
             });
         }
