@@ -37,54 +37,73 @@
         <div class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">
             THE PULSE.
         </div>
-        <div class="hidden md:flex space-x-8 font-medium tracking-wide">
-            <a href="#featured" class="hover:text-neonCyan transition">Featured</a>
-            <a href="#fresh" class="hover:text-neonLime transition">Fresh Drops</a>
-            <a href="#moods" class="hover:text-neonCyan transition">Curated Moods</a>
+        
+        <!-- Live Instant Search Bar -->
+        <div class="relative">
+            <input type="text" id="searchInput" onkeyup="filterLocalTracks()" placeholder="Search artist, song, genre..." class="bg-cardBg border border-gray-700 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-neonCyan transition w-56 md:w-80 text-white">
+            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neonCyan">🔍</span>
         </div>
-        <!-- Smart Search Form -->
-        <form id="searchForm" onsubmit="handleGlobalSearch(event)" class="relative">
-            <input type="text" id="searchInput" onkeyup="filterLocalTracks()" placeholder="Search site or press Enter..." class="bg-cardBg border border-gray-700 rounded-full px-4 py-1.5 text-sm focus:outline-none focus:border-neonCyan transition w-44 md:w-64 text-white">
-            <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neonCyan hover:text-neonLime font-bold">🔍</button>
-        </form>
     </nav>
 
-    <!-- 2. HERO SECTION (SPOTLIGHT) -->
-    <section id="featured" class="relative min-h-[50vh] flex items-center justify-start px-8 md:px-16 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-neonCyan/10 via-darkBg to-darkBg">
-        <div class="max-w-2xl space-y-6">
-            <span class="text-xs uppercase tracking-widest bg-neonCyan/20 text-neonCyan px-3 py-1 rounded-full border border-neonCyan/30">Artist Spotlight</span>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-none">
-                The New <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">Wave</span>
+    <!-- 2. HERO SECTION -->
+    <section class="relative min-h-[40vh] flex items-center justify-start px-8 md:px-16 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-neonCyan/10 via-darkBg to-darkBg">
+        <div class="max-w-2xl space-y-4">
+            <span class="text-xs uppercase tracking-widest bg-neonCyan/20 text-neonCyan px-3 py-1 rounded-full border border-neonCyan/30">Curated Vault</span>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-none">
+                Explore The <span class="text-transparent bg-clip-text bg-gradient-to-r from-neonCyan to-neonLime">Sound Library</span>
             </h1>
-            <p class="text-gray-400 text-lg">Curated heavy hitters, unreleased vibes, and late-night driving anthems.</p>
+            <p class="text-gray-400 text-sm md:text-base">Type any artist or vibe in the search bar to filter tracks in real-time.</p>
         </div>
     </section>
 
-    <!-- 3. FRESH DROPS (SEARCHABLE TRACKS) -->
-    <section id="fresh" class="py-12 px-6 md:px-12">
+    <!-- 3. IN-SITE TRACKS VAULT -->
+    <section id="fresh" class="py-10 px-6 md:px-12">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold tracking-wide border-l-4 border-neonLime pl-3">Fresh Beats</h2>
-            <span id="searchResultText" class="text-sm text-neonLime">Showing All Tracks</span>
+            <h2 class="text-2xl font-bold tracking-wide border-l-4 border-neonLime pl-3">Tracks Library</h2>
+            <span id="searchResultText" class="text-sm text-neonLime font-semibold">Showing All Tracks</span>
         </div>
         
-        <!-- Grid with searchable Track Cards -->
+        <!-- Search Results Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="trackGrid">
             
-            <!-- Track 1: Sidhu Moose Wala -->
-            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonCyan/50 transition duration-300" data-keywords="sidhu moose wala same beef punjabi hype">
+            <!-- Track 1: Sidhu Moose Wala - Same Beef -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonCyan/50 transition duration-300" data-keywords="sidhu moose wala same beef punjabi hype car drive">
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/2ZInwBwVv5YI1D44ZfA6Yg?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
 
-            <!-- Track 2: Darshan Raval -->
-            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonLime/50 transition duration-300" data-keywords="darshan raval asal mein hindi romantic chill">
+            <!-- Track 2: Darshan Raval - Asal Mein -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonLime/50 transition duration-300" data-keywords="darshan raval asal mein hindi romantic chill sad love">
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/30wZfeZndX2I1v8VvJ236n?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
 
-            <!-- Track 3: Karan Aujla -->
-            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonCyan/50 transition duration-300" data-keywords="karan aujla softly punjabi pop hype">
+            <!-- Track 3: Karan Aujla - Softly -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonCyan/50 transition duration-300" data-keywords="karan aujla softly punjabi pop hype drive">
                 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6L93oKeqxV2vGfL3hJp9C4?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
 
+            <!-- Track 4: Sidhu Moose Wala - 295 -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonLime/50 transition duration-300" data-keywords="sidhu moose wala 295 punjabi bass hype heavy">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/6L93oKeqxV2vGfL3hJp9C4?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <!-- Track 5: AP Dhillon - Excuses -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonCyan/50 transition duration-300" data-keywords="ap dhillon excuses punjabi brown munde party club">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0L893Osk0S3eAn4G3p011k?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+            <!-- Track 6: Darshan Raval - Ek Tarfa -->
+            <div class="track-card bg-cardBg p-3 rounded-2xl border border-gray-800 hover:border-neonLime/50 transition duration-300" data-keywords="darshan raval ek tarfa hindi romantic monsoon soulful">
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5uC2X2QhX2g2H6E2yR334C?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            </div>
+
+        </div>
+
+        <!-- Dynamic No Match Box -->
+        <div id="noMatchBox" class="hidden text-center py-16 bg-cardBg/50 rounded-2xl border border-gray-800 mt-6">
+            <p class="text-gray-400 text-lg">Aapka searched track library me nahi mila.</p>
+            <button onclick="searchOnSpotify()" class="mt-4 bg-neonCyan text-black font-bold px-6 py-2.5 rounded-full hover:shadow-neon-cyan transition">
+                Spotify Par Directly Search Karein ↗
+            </button>
         </div>
     </section>
 
@@ -93,12 +112,12 @@
         <p>&copy; 2026 The Pulse Hub. Created with Neon Energy.</p>
     </footer>
 
-    <!-- SEARCH JAVASCRIPT LOGIC -->
+    <!-- IN-SITE LIVE FILTER SCRIPT -->
     <script>
-        // 1. Live Page Filtering Function
         function filterLocalTracks() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
+            let input = document.getElementById('searchInput').value.toLowerCase().trim();
             let cards = document.getElementsByClassName('track-card');
+            let noMatchBox = document.getElementById('noMatchBox');
             let visibleCount = 0;
 
             for (let i = 0; i < cards.length; i++) {
@@ -112,22 +131,23 @@
             }
 
             let resultText = document.getElementById('searchResultText');
+            
             if (input === "") {
                 resultText.innerText = "Showing All Tracks";
+                noMatchBox.classList.add('hidden');
             } else if (visibleCount === 0) {
-                resultText.innerText = "No match on page. Press Enter to search on Spotify!";
+                resultText.innerText = "No In-site match";
+                noMatchBox.classList.remove('hidden');
             } else {
-                resultText.innerText = `Found ${visibleCount} result(s) on page`;
+                resultText.innerText = `Found ${visibleCount} track(s) in site library`;
+                noMatchBox.classList.add('hidden');
             }
         }
 
-        // 2. Global Spotify Search Redirect on Enter / Submit
-        function handleGlobalSearch(event) {
-            event.preventDefault(); // Stop page reload
+        function searchOnSpotify() {
             let query = document.getElementById('searchInput').value.trim();
             if (query !== "") {
-                let spotifyUrl = `https://open.spotify.com/search/${encodeURIComponent(query)}`;
-                window.open(spotifyUrl, '_blank'); // Open search in new tab
+                window.open(`https://open.spotify.com/search/${encodeURIComponent(query)}`, '_blank');
             }
         }
     </script>
